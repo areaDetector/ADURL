@@ -1,0 +1,77 @@
+#  File      : /afs/psi.ch/user/f/flechsig/c/httpclient/Makefile
+#  Date      : <20 Sep 10 08:56:55 flechsig> 
+#  Time-stamp: <20 Sep 10 10:10:58 flechsig> 
+#  Author    : Uwe Flechsig, uwe.flechsig&#64;psi.&#99;&#104;
+
+#  $Source$ 
+#  $Date$
+#  $Revision$ 
+#  $Author$ 
+
+#########################################################################
+# 1) paths
+SRCDIR      = .
+INSTPATH    = /work/sls/bin
+BUILDPATH   = ./
+#########################################################################
+# 2) tools
+SHELL       = /bin/sh 
+CC          = gcc
+PP          = g77 -E -o
+FOR         = f77 
+YACC        = bison -y
+INSTALL     = /usr/bin/install -c
+INSTALLDATA = /usr/bin/install -c -m 644
+MAKE        = make
+#########################################################################
+# 3) switches
+DEBUG	= -DDEBUG
+DEFS    = -DLINUX $(DEBUG) -DHTTPCLIENT        
+CDEBUG  = -g
+FDEBUG  = -g -C -B111 
+#LINUX_C	= -I/usr/local/include/ImageMagick -fopenmp -g -O2 -Wall -W -pthread
+LINUX_C	= -I/usr/local/include/ImageMagick -fopenmp -g -O2 -Wall -W -pthread
+CFLAGS  = $(CDEBUG) -I. -I$(SRCDIR) $(LINUX_C) $(DEFS) -c 
+FFLAGS  = $(FDEBUG) -c -f -B108 -W -s -N3 -N51 -N22 -N33
+LDFLAGS =  -lm 
+#########################################################################
+.phony: all
+#########################################################################
+PROGRAM = httpclient
+#########################################################################
+LIBS    = -lcurl -L/usr/local/lib -lMagickWand -lMagickCore -ltiff \
+          -lfreetype -ljpeg -lfftw3 -lfontconfig -lXext -lSM -lICE \
+          -lX11 -lXt -lbz2 -lz -lm -lgomp -lpthread
+#########################################################################
+SRCS = httpclient.c xmalloc.c error.c xstrdup.c httpclient.h common.h \
+       error.h 
+OBJS = httpclient.o xmalloc.o error.o xstrdup.o
+AUX  = Makefile
+
+all:  $(PROGRAM)
+##########################################################################
+$(PROGRAM): $(OBJS) 
+	$(CC) -o $@  $(OBJS) $(LDFLAGS) $(LIBS)
+##########################################################################
+%.o : %.c 
+	$(CC) $(CFLAGS) -o $@ $<
+
+%.o : %.f
+	$(FOR) $(FFLAGS) $< 
+
+install:
+	$(INSTALL) $(PROGRAM) $(INSTPATH)
+
+
+TAGS:   $(SRCS)
+	etags $(SRCS)
+
+clean:
+	rm -f *.o  core *.jpg $(PROGRAM) *~ $(PROGRAM).tgz
+
+distclean: clean
+	rm -f TAGS  config.status
+
+dist: $(SRCS) $(AUX)
+	tar cvzf $(PROGRAM).tgz $(SRCS) $(AUX)
+#end /home/pss060/sls/flechsig/c/Makefile
