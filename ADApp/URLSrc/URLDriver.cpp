@@ -382,6 +382,10 @@ URLDriver::URLDriver(const char *portName, int maxBuffers, size_t maxMemory,
     int status = asynSuccess;
     const char *functionName = "URLDriver";
 
+
+    /* Initialize GraphicsMagick */
+    InitializeMagick(NULL);
+
     /* Create the epicsEvents for signaling to the acquisition task when acquisition starts and stops */
     this->startEventId = epicsEventCreate(epicsEventEmpty);
     if (!this->startEventId) {
