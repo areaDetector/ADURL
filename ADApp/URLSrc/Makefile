@@ -26,6 +26,7 @@ URLTest_SRCS += URLTest.cpp
 PROD_IOC_Linux += URLDriverApp
 PROD_IOC_WIN32 += URLDriverApp
 PROD_IOC_cygwin32 += URLDriverApp
+PROD_IOC_Darwin += URLDriverApp
 # <name>.dbd will be created from <name>Include.dbd
 DBD += URLDriverApp.dbd
 DBD += URLDriverSupport.dbd
