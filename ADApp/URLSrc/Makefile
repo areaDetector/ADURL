@@ -14,6 +14,7 @@ endif
 LIBRARY_IOC_Linux = URLDriver
 LIBRARY_IOC_WIN32 = URLDriver
 LIBRARY_IOC_cygwin32 = URLDriver
+LIBRARY_IOC_Darwin = URLDriver
 LIB_SRCS += URLDriver.cpp
 
 #==================================
