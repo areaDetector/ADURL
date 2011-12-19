@@ -255,7 +255,8 @@ void URLDriver::URLTask()
         }
 
         /* See if acquisition is done */
-        if ((imageMode == ADImageSingle) ||
+        if ((imageStatus != asynSuccess) ||
+            (imageMode == ADImageSingle) ||
             ((imageMode == ADImageMultiple) &&
              (numImagesCounter >= numImages))) {
             setIntegerParam(ADAcquire, 0);
