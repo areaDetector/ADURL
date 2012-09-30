@@ -13,7 +13,9 @@ epicsEnvSet("YSIZE",  "480")
 epicsEnvSet("NCHANS", "2048")
 
 # Create a URL driver
-URLDriverConfig("$(PORT)", -1, -1)
+# URLDriverConfig(const char *portName, int maxBuffers, size_t maxMemory, 
+#                 int priority, int stackSize)
+{URLDriverConfig("$(PORT)", 0, 0)
 dbLoadRecords("$(AREA_DETECTOR)/ADApp/Db/ADBase.template",     "P=$(PREFIX),R=cam1:,PORT=$(PORT),ADDR=0,TIMEOUT=1")
 dbLoadRecords("$(AREA_DETECTOR)/ADApp/Db/URLDriver.template","P=$(PREFIX),R=cam1:,PORT=$(PORT),ADDR=0,TIMEOUT=1")
 
