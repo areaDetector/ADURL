@@ -18,17 +18,20 @@ LIBRARY_IOC_Darwin = URLDriver
 LIB_SRCS += URLDriver.cpp
 
 #==================================
-PROD_IOC_Linux += URLTest
-PROD_IOC_WIN32 += URLTest
-PROD_IOC_cygwin32 += URLTest
-URLTest_SRCS += URLTest.cpp
+#PROD_IOC_Linux += URLTest
+#PROD_IOC_Linux += URLTest
+#PROD_IOC_WIN32 += URLTest
+#PROD_IOC_cygwin32 += URLTest
+#URLTest_SRCS += URLTest.cpp
 
-PROD_IOC_Linux += URLDriverApp
-PROD_IOC_WIN32 += URLDriverApp
-PROD_IOC_cygwin32 += URLDriverApp
-PROD_IOC_Darwin += URLDriverApp
+PROD_NAME = URLDriverApp
+PROD_IOC_Linux += $(PROD_NAME)
+PROD_IOC_WIN32 += $(PROD_NAME)
+PROD_IOC_cygwin32 += $(PROD_NAME)
+PROD_IOC_Darwin += $(PROD_NAME)
 # <name>.dbd will be created from <name>Include.dbd
-DBD += URLDriverApp.dbd
+DBD += $(PROD_NAME).dbd
+$(PROD_NAME)_DBD += URLDriverSupport.dbd
 DBD += URLDriverSupport.dbd
 
 # <name>_registerRecordDeviceDriver.cpp will be created from <name>.dbd
