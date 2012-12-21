@@ -130,8 +130,9 @@ asynStatus URLDriver::readImage()
         this->pArrays[0] = this->pNDArrayPool->alloc(ndims, dims, dataType, 0, NULL);
         pImage = this->pArrays[0];
         asynPrint(this->pasynUserSelf, ASYN_TRACEIO_DRIVER,
-            "%s:%s: reading URL=%s, dimensions=[%d,%d,%d], ImageType=%d, depth=%d\n",
-            driverName, functionName, URLString, dims[0], dims[1], dims[2], imageType, depth);
+            "%s:%s: reading URL=%s, dimensions=[%lu,%lu,%lu], ImageType=%d, depth=%d\n",
+            driverName, functionName, URLString, 
+            (unsigned long)dims[0], (unsigned long)dims[1], (unsigned long)dims[2], imageType, depth);
         image.write(0, 0, ncols, nrows, map, storageType, pImage->pData);
         pImage->pAttributeList->add("ColorMode", "Color mode", NDAttrInt32, &colorMode);
         setIntegerParam(ADSizeX, ncols);
