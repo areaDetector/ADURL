@@ -23,7 +23,12 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
-R2-0
+R2-1 (18-April-2015)
+----
+* Changes for compatibility with ADCore R2-2.
+
+
+R2-0 (12-March-2014)
 ----
 * Moved the repository to [Github](https://github.com/areaDetector/ADURL).
 * Re-organized the directory structure to separate the driver library from the example IOC application.
