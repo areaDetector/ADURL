@@ -1,3 +1,4 @@
+file "ADBase_settings.req", P=$(P), R=$(R)
 $(P)$(R)URL1
 $(P)$(R)URL2
 $(P)$(R)URL3

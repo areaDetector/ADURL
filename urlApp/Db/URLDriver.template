@@ -2,6 +2,8 @@
 # Mark Rivers
 # October 12, 2010
 
+include "ADBase.template"
+
 # URL records.  These are not PINI=YES because the URLSelect record is.
 record(waveform, "$(P)$(R)URL1")
 {
