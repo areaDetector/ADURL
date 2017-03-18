@@ -25,7 +25,7 @@ epicsEnvSet("EPICS_DB_INCLUDE_PATH", "$(ADCORE)/db")
 # Create a URL driver
 # URLDriverConfig(const char *portName, int maxBuffers, size_t maxMemory, 
 #                 int priority, int stackSize)
-{URLDriverConfig("$(PORT)", 0, 0)
+URLDriverConfig("$(PORT)", 0, 0)
 dbLoadRecords("$(ADURL)/db/URLDriver.template","P=$(PREFIX),R=cam1:,PORT=$(PORT),ADDR=0,TIMEOUT=1")
 
 # Create a standard arrays plugin.
