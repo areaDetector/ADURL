@@ -17,12 +17,13 @@
 #include <epicsEvent.h>
 #include <epicsMutex.h>
 #include <iocsh.h>
-#include <epicsExport.h>
 
 #include <Magick++.h>
 using namespace Magick;
 
 #include "ADDriver.h"
+
+#include <epicsExport.h>
 
 static const char *driverName = "URLDriver";
 
