@@ -3,7 +3,7 @@ include $(TOP)/configure/CONFIG
 #----------------------------------------
 #  ADD MACRO DEFINITIONS AFTER THIS LINE
 
-ifeq ($(USE_GRAPHICSMAGICK), YES)
+ifeq ($(WITH_GRAPHICSMAGICK), YES)
   PROD_NAME = URLDriverApp
   PROD_IOC_Linux    += $(PROD_NAME)
   PROD_IOC_WIN32    += $(PROD_NAME)
