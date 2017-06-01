@@ -18,7 +18,6 @@
 #include <epicsEvent.h>
 #include <epicsMutex.h>
 #include <iocsh.h>
-#include <epicsExport.h>
 
 #include <Magick++.h>
 using namespace Magick;
