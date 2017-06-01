@@ -11,7 +11,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
 
 #include <epicsTime.h>
 #include <epicsThread.h>
