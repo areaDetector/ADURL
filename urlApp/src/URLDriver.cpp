@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <string>
 
 #include <epicsTime.h>
 #include <epicsThread.h>
@@ -41,7 +42,6 @@ public:
 protected:
     int URLName;
     #define FIRST_URL_DRIVER_PARAM URLName
-    #define LAST_URL_DRIVER_PARAM URLName
 
 private:
     /* These are the methods that are new to this class */
@@ -54,8 +54,6 @@ private:
 };
 
 #define URLNameString "URL_NAME"
-
-#define NUM_URL_DRIVER_PARAMS ((int)(&LAST_URL_DRIVER_PARAM - &FIRST_URL_DRIVER_PARAM + 1))
 
 
 asynStatus URLDriver::readImage()
@@ -352,9 +350,12 @@ void URLDriver::report(FILE *fp, int details)
     fprintf(fp, "URL Driver %s\n", this->portName);
     if (details > 0) {
         int nx, ny, dataType;
+        std::string urlName;
         getIntegerParam(ADSizeX, &nx);
         getIntegerParam(ADSizeY, &ny);
         getIntegerParam(NDDataType, &dataType);
+        getStringParam(URLName, urlName);
+        fprintf(fp, "  URL:               %s\n", urlName.c_str());
         fprintf(fp, "  NX, NY:            %d  %d\n", nx, ny);
         fprintf(fp, "  Data type:         %d\n", dataType);
     }
@@ -376,7 +377,7 @@ void URLDriver::report(FILE *fp, int details)
 URLDriver::URLDriver(const char *portName, int maxBuffers, size_t maxMemory, 
                      int priority, int stackSize)
 
-    : ADDriver(portName, 1, NUM_URL_DRIVER_PARAMS, maxBuffers, maxMemory,
+    : ADDriver(portName, 1, 0, maxBuffers, maxMemory,
                0, 0, /* No interfaces beyond those set in ADDriver.cpp */
                0, 1, /* ASYN_CANBLOCK=0, ASYN_MULTIDEVICE=0, autoConnect=1 */
                priority, stackSize)
