@@ -1,4 +1,4 @@
-# Must have loaded envPaths via st.cmd.linux or st.cmd.win32
+# Must have loaded envPaths via st.cmd, st.cmd.linux or st.cmd.windows
 
 errlogInit(20000)
 
