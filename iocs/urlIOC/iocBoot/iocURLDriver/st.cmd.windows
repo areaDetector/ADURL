@@ -1,2 +1,2 @@
-< envPaths.win32
-< st.cmd
+< envPaths.windows
+< st_base.cmd
