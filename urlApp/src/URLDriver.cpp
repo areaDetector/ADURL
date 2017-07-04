@@ -26,6 +26,10 @@ using namespace Magick;
 
 #include <epicsExport.h>
 
+#define DRIVER_VERSION      2
+#define DRIVER_REVISION     2
+#define DRIVER_MODIFICATION 0
+
 static const char *driverName = "URLDriver";
 
 /** URL driver; reads images from URLs, such as Web cameras and Axis video servers, but also files, etc. */
@@ -384,6 +388,7 @@ URLDriver::URLDriver(const char *portName, int maxBuffers, size_t maxMemory,
 
 {
     int status = asynSuccess;
+    char versionString[20];
     const char *functionName = "URLDriver";
 
 
@@ -409,7 +414,12 @@ URLDriver::URLDriver(const char *portName, int maxBuffers, size_t maxMemory,
     /* Set some default values for parameters */
     status =  setStringParam (ADManufacturer, "URL Driver");
     status |= setStringParam (ADModel, "GraphicsMagick");
-
+    epicsSnprintf(versionString, sizeof(versionString), "%d.%d.%d", 
+                  DRIVER_VERSION, DRIVER_REVISION, DRIVER_MODIFICATION);
+    setStringParam(NDDriverVersion, versionString);
+    setStringParam(ADSDKVersion, MagickLibVersionText);
+    setStringParam(ADSerialNumber, "No serial number");
+    setStringParam(ADFirmwareVersion, "No firmware");
     if (status) {
         printf("%s: unable to set camera parameters\n", functionName);
         return;
