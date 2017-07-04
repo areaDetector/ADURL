@@ -23,6 +23,14 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
+R2-2 (4-July-2017)
+----
+* Changed Makefiles to set flags for new version of GraphicsMagick in ADSupport
+* Added example GraphicsMagick configuration files (.mgk) to example IOC directory
+* Added some new test TIFF images in the iocURLDriver/images directory
+* Fixed medm files for compatibility with ADCore R3-0.
+
+
 R2-1 (18-April-2015)
 ----
 * Changes for compatibility with ADCore R2-2.
