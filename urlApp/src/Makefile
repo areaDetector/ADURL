@@ -16,7 +16,7 @@ ifeq ($(WITH_GRAPHICSMAGICK), YES)
   endif
 
   ifdef GRAPHICSMAGICK_INCLUDE
-    USR_INCLUDES += -I$(GRAPHICSMAGICK_INCLUDE)
+    USR_INCLUDES += $(addprefix -I, $(GRAPHICSMAGICK_INCLUDE))
   endif
 
   ifeq (windows-x64, $(findstring windows-x64, $(T_A)))
