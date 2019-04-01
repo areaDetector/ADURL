@@ -2,7 +2,7 @@ ADURL
 =====
 An 
 [EPICS](http://www.aps.anl.gov/epics/) 
-[areaDetector](http://cars.uchicago.edu/software/epics/areaDetector.html) 
+[areaDetector](https://cars.uchicago.edu/software/epics/areaDetector.html) 
 driver for reading images from a URL. It can be used to read images from
 Web cameras, 
 [Axis video servers](http://www.axis.com/), 
@@ -12,5 +12,5 @@ and can thus read images encoded in any of the formats supported by GraphicsMagi
 such as JPEG, TIFF, PNG, etc.
 
 Additional information:
-* [Documentation](http://cars.uchicago.edu/software/epics/URLDriverDoc.html).
+* [Documentation](https://cars.uchicago.edu/software/epics/URLDriverDoc.html).
 * [Release notes and links to source and binary releases](RELEASE.md).
