@@ -46,7 +46,7 @@ the standard driver parameters.
     - EPICS record name 
     - Description 
   * - ADAcquirePeriod
-    - ``$(P)$(R)AcquirePeriod``
+    - $(P)$(R)AcquirePeriod
     - This controls the period between reading images.
       The driver attempts to collect images at the rate determined by
       this value. 
@@ -65,24 +65,24 @@ those in asynNDArrayDriver.h and ADDriver.h.
 .. cssclass:: table-bordered table-striped table-hover
 .. flat-table::
   :header-rows: 2
-  :widths: 50 10 20 20
-
+  :widths: 60 20 20
 
   * - **Parameter Definitions in URLDriver.cpp and EPICS Record Definitions
       in URLDriver.template** 
   * - Description 
-    - drvInfo string 
     - EPICS record name 
     - EPICS record type 
   * - The name of the URL to read images from. There are 10
       output records to control the URL name. 
-    - URL_NAME 
-    - ``$(P)$(R)URLName[1-10]``, ``$(P)$(R)URLName_RBV``
+    - $(P)$(R)URL[1-10], $(P)$(R)URL_RBV
     - waveform, waveform
+  * - Selects which os the 10 URLs to read from. 
+    - $(P)$(R)URLSelect
+    - mbbo
 
 The URLs for Web cameras and video servers are typically long strings,
 which are difficult to remember and to type. Thus, for convenience
-there is an EPICS mbbo record which is used to select 1 of 10 URLs.
+there is an EPICS mbbo record ($(P)$(R)URLSelect) which is used to select 1 of 10 URLs.
 This allows easily switching between cameras, etc. The mbbo menu
 string fields (e.g. ZRST, ONST, etc.) can be edited to supply a useful
 short description of each camera (e.g. "Sample camera"), and the
