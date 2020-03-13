@@ -117,6 +117,14 @@ the detailed documentation on the URLDirverConfig function in the
 `URLDriver.cpp documentation`_ and in the documentation for the
 constructor for the `URLDriver class`_.
 
+Example st.cmd startup file
+---------------------------
+
+.. toctree::
+   :hidden:
+   
+   st_cmd.rst
+
 There is an example IOC boot directory and startup script
 provided with areaDetector: :doc:`st_cmd`.
 
