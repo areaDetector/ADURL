@@ -11,6 +11,7 @@ record(waveform, "$(P)$(R)URL1")
     field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))URL_NAME")
     field(FTVL, "CHAR")
     field(NELM, "256")
+    info(autosaveFields, "VAL")
 }
 
 record(waveform, "$(P)$(R)URL2")
@@ -19,6 +20,7 @@ record(waveform, "$(P)$(R)URL2")
     field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))URL_NAME")
     field(FTVL, "CHAR")
     field(NELM, "256")
+    info(autosaveFields, "VAL")
 }
 
 record(waveform, "$(P)$(R)URL3")
@@ -27,6 +29,7 @@ record(waveform, "$(P)$(R)URL3")
     field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))URL_NAME")
     field(FTVL, "CHAR")
     field(NELM, "256")
+    info(autosaveFields, "VAL")
 }
 
 record(waveform, "$(P)$(R)URL4")
@@ -35,6 +38,7 @@ record(waveform, "$(P)$(R)URL4")
     field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))URL_NAME")
     field(FTVL, "CHAR")
     field(NELM, "256")
+    info(autosaveFields, "VAL")
 }
 
 record(waveform, "$(P)$(R)URL5")
@@ -43,6 +47,7 @@ record(waveform, "$(P)$(R)URL5")
     field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))URL_NAME")
     field(FTVL, "CHAR")
     field(NELM, "256")
+    info(autosaveFields, "VAL")
 }
 
 record(waveform, "$(P)$(R)URL6")
@@ -51,6 +56,7 @@ record(waveform, "$(P)$(R)URL6")
     field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))URL_NAME")
     field(FTVL, "CHAR")
     field(NELM, "256")
+    info(autosaveFields, "VAL")
 }
 
 record(waveform, "$(P)$(R)URL7")
@@ -59,6 +65,7 @@ record(waveform, "$(P)$(R)URL7")
     field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))URL_NAME")
     field(FTVL, "CHAR")
     field(NELM, "256")
+    info(autosaveFields, "VAL")
 }
 
 record(waveform, "$(P)$(R)URL8")
@@ -67,6 +74,7 @@ record(waveform, "$(P)$(R)URL8")
     field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))URL_NAME")
     field(FTVL, "CHAR")
     field(NELM, "256")
+    info(autosaveFields, "VAL")
 }
 
 record(waveform, "$(P)$(R)URL9")
@@ -75,6 +83,7 @@ record(waveform, "$(P)$(R)URL9")
     field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))URL_NAME")
     field(FTVL, "CHAR")
     field(NELM, "256")
+    info(autosaveFields, "VAL")
 }
 
 record(waveform, "$(P)$(R)URL10")
@@ -83,6 +92,7 @@ record(waveform, "$(P)$(R)URL10")
     field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))URL_NAME")
     field(FTVL, "CHAR")
     field(NELM, "256")
+    info(autosaveFields, "VAL")
 }
 
 record(waveform, "$(P)$(R)URL_RBV")
@@ -94,7 +104,7 @@ record(waveform, "$(P)$(R)URL_RBV")
     field(SCAN, "I/O Intr")
 }
 
-# mbbo record to select 1 of the 8 URLs. 
+# mbbo record to select 1 of the 8 URLs.
 # The strings can be changed at run-time and are in save/restore
 record (mbbo, "$(P)$(R)URLSelect")
 {
@@ -120,6 +130,7 @@ record (mbbo, "$(P)$(R)URLSelect")
     field(NIST, "URL10")
     field(NIVL, "8")
     field(FLNK, "$(P)$(R)URLSeq.PROC PP MS")
+    info(autosaveFields, "VAL ZRST ONST TWST THST FRST FVST SXST SVST EIST NIST")
 }
 
 record(seq, "$(P)$(R)URLSeq")
