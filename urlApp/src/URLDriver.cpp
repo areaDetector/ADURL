@@ -387,10 +387,6 @@ URLDriver::URLDriver(const char *portName, int maxBuffers, size_t maxMemory,
     char versionString[20];
     const char *functionName = "URLDriver";
 
-
-    /* Initialize GraphicsMagick */
-    InitializeMagick(NULL);
-
     /* Create the epicsEvents for signaling to the acquisition task when acquisition starts and stops */
     this->startEventId = epicsEventCreate(epicsEventEmpty);
     if (!this->startEventId) {
@@ -438,6 +434,9 @@ URLDriver::URLDriver(const char *portName, int maxBuffers, size_t maxMemory,
 extern "C" int URLDriverConfig(const char *portName, int maxBuffers, size_t maxMemory, 
                                int priority, int stackSize)
 {
+    /* Initialize GraphicsMagick */
+    InitializeMagick(NULL);
+
     new URLDriver(portName, maxBuffers, maxMemory, priority, stackSize);
     return(asynSuccess);
 }
