@@ -23,6 +23,19 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
+R2-3 (17-May-2021)
+----
+* Converted documentation to ReST, include in documentation on github.io.
+* Added autoconverted OPI files for css/BOY, css/Phoebus, edm, and caQtDM.
+* Fix to release the lock at least briefly between each image, otherwise EPICS puts don't get processed.
+* Move call to InitializeMagick() from the constructor to URLDriverConfig() because it was being called too late, 
+  resulting in assertion failure on newer versions of GraphicsMagick.
+* Remove unlock() and lock() around call to doCallbacksGenericPointer. It is not needed and can cause problems.
+* Set ADSDKVersion to GraphicsMagick version, set NDDriverVersion to release of this driver.
+* Remove parameter counting, not needed in current versions of asynPortDriver.
+* Add URL to report().
+
+
 R2-2 (4-July-2017)
 ----
 * Changed Makefiles to set flags for new version of GraphicsMagick in ADSupport.
