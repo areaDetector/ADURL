@@ -276,14 +276,14 @@ void URLDriver::URLTask()
             asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW,
                      "%s:%s: delay=%f\n",
                       driverName, functionName, delay);
-            if (delay >= 0.0) {
-                /* We set the status to readOut to indicate we are in the period delay */
-                setIntegerParam(ADStatus, ADStatusWaiting);
-                callParamCallbacks();
-                this->unlock();
-                epicsEventWaitWithTimeout(this->stopEventId, delay);
-                this->lock();
-            }
+            // Need at least a short delay to release the lock
+            if (delay <= 0.0) delay = 0.001;
+            /* We set the status to readOut to indicate we are in the period delay */
+            setIntegerParam(ADStatus, ADStatusWaiting);
+            callParamCallbacks();
+            this->unlock();
+            epicsEventWaitWithTimeout(this->stopEventId, delay);
+            this->lock();
         }
     }
 }
