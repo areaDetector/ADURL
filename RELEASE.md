@@ -23,7 +23,7 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
-R2-3 (17-May-2021)
+R2-3 (26-May-2021)
 ----
 * Converted documentation to ReST, include in documentation on github.io.
 * Added autoconverted OPI files for css/BOY, css/Phoebus, edm, and caQtDM.
