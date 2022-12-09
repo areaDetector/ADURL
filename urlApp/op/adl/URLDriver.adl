@@ -171,6 +171,18 @@ composite {
 	}
 	"composite name"=""
 	children {
+		rectangle {
+			object {
+				x=360
+				y=205
+				width=350
+				height=280
+			}
+			"basic attribute" {
+				clr=14
+				fill="outline"
+			}
+		}
 		composite {
 			object {
 				x=487
@@ -494,18 +506,6 @@ composite {
 					textix="Acquire"
 					align="horiz. right"
 				}
-			}
-		}
-		rectangle {
-			object {
-				x=360
-				y=205
-				width=350
-				height=280
-			}
-			"basic attribute" {
-				clr=14
-				fill="outline"
 			}
 		}
 		composite {
