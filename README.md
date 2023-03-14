@@ -12,5 +12,5 @@ and can thus read images encoded in any of the formats supported by GraphicsMagi
 such as JPEG, TIFF, PNG, etc.
 
 Additional information:
-* [Documentation](https://areadetector.github.io/master/ADURL/ADURL.html)
+* [Documentation](https://areadetector.github.io/areaDetector/ADURL/ADURL.html)
 * [Release notes and links to source and binary releases](RELEASE.md)
