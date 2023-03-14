@@ -90,8 +90,23 @@
     <height>280</height>
     <style>3</style>
     <transparent>true</transparent>
+    <widget type="rectangle" version="2.0.0">
+      <name>rectangle #26</name>
+      <width>350</width>
+      <height>280</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color red="0" green="0" blue="0">
+        </color>
+      </line_color>
+      <background_color>
+        <color red="0" green="0" blue="0">
+        </color>
+      </background_color>
+      <transparent>true</transparent>
+    </widget>
     <widget type="group" version="2.0.0">
-      <name>composite #26</name>
+      <name>composite #29</name>
       <x>127</x>
       <y>2</y>
       <width>105</width>
@@ -99,7 +114,7 @@
       <style>3</style>
       <transparent>true</transparent>
       <widget type="rectangle" version="2.0.0">
-        <name>rectangle #29</name>
+        <name>rectangle #32</name>
         <width>105</width>
         <height>21</height>
         <line_color>
@@ -113,7 +128,7 @@
       </widget>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #32</name>
+      <name>text #35</name>
       <text>Collect</text>
       <x>107</x>
       <y>3</y>
@@ -129,7 +144,7 @@
       <horizontal_alignment>1</horizontal_alignment>
     </widget>
     <widget type="group" version="2.0.0">
-      <name>composite #35</name>
+      <name>composite #38</name>
       <x>35</x>
       <y>30</y>
       <width>290</width>
@@ -137,7 +152,7 @@
       <style>3</style>
       <transparent>true</transparent>
       <widget type="label" version="2.0.0">
-        <name>text #38</name>
+        <name>text #41</name>
         <text>Acquire period</text>
         <width>140</width>
         <font>
@@ -147,7 +162,7 @@
         <horizontal_alignment>2</horizontal_alignment>
       </widget>
       <widget type="textentry" version="3.0.0">
-        <name>text entry #41</name>
+        <name>text entry #44</name>
         <pv_name>$(P)$(R)AcquirePeriod</pv_name>
         <x>145</x>
         <width>60</width>
@@ -164,7 +179,7 @@
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
       <widget type="textupdate" version="2.0.0">
-        <name>text update #45</name>
+        <name>text update #48</name>
         <pv_name>$(P)$(R)AcquirePeriod_RBV</pv_name>
         <x>210</x>
         <y>1</y>
@@ -188,7 +203,7 @@
       </widget>
     </widget>
     <widget type="group" version="2.0.0">
-      <name>composite #49</name>
+      <name>composite #52</name>
       <x>95</x>
       <y>55</y>
       <width>230</width>
@@ -196,7 +211,7 @@
       <style>3</style>
       <transparent>true</transparent>
       <widget type="label" version="2.0.0">
-        <name>text #52</name>
+        <name>text #55</name>
         <text># Images</text>
         <width>80</width>
         <font>
@@ -206,7 +221,7 @@
         <horizontal_alignment>2</horizontal_alignment>
       </widget>
       <widget type="textentry" version="3.0.0">
-        <name>text entry #55</name>
+        <name>text entry #58</name>
         <pv_name>$(P)$(R)NumImages</pv_name>
         <x>85</x>
         <width>60</width>
@@ -223,7 +238,7 @@
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
       <widget type="textupdate" version="2.0.0">
-        <name>text update #59</name>
+        <name>text update #62</name>
         <pv_name>$(P)$(R)NumImages_RBV</pv_name>
         <x>150</x>
         <y>1</y>
@@ -247,7 +262,7 @@
       </widget>
     </widget>
     <widget type="group" version="2.0.0">
-      <name>composite #63</name>
+      <name>composite #66</name>
       <x>5</x>
       <y>80</y>
       <width>320</width>
@@ -255,7 +270,7 @@
       <style>3</style>
       <transparent>true</transparent>
       <widget type="textupdate" version="2.0.0">
-        <name>text update #66</name>
+        <name>text update #69</name>
         <pv_name>$(P)$(R)NumImagesCounter_RBV</pv_name>
         <x>240</x>
         <y>1</y>
@@ -278,7 +293,7 @@
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
       <widget type="label" version="2.0.0">
-        <name>text #70</name>
+        <name>text #73</name>
         <text># Images complete</text>
         <width>170</width>
         <font>
@@ -289,7 +304,7 @@
       </widget>
     </widget>
     <widget type="group" version="2.0.0">
-      <name>composite #73</name>
+      <name>composite #76</name>
       <x>25</x>
       <y>105</y>
       <width>310</width>
@@ -297,7 +312,7 @@
       <style>3</style>
       <transparent>true</transparent>
       <widget type="label" version="2.0.0">
-        <name>text #76</name>
+        <name>text #79</name>
         <text>Image mode</text>
         <font>
           <font family="Liberation Sans" style="REGULAR" size="16.0">
@@ -306,7 +321,7 @@
         <horizontal_alignment>2</horizontal_alignment>
       </widget>
       <widget type="combo" version="2.0.0">
-        <name>menu #79</name>
+        <name>menu #82</name>
         <pv_name>$(P)$(R)ImageMode</pv_name>
         <x>105</x>
         <width>120</width>
@@ -318,7 +333,7 @@
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
       <widget type="textupdate" version="2.0.0">
-        <name>text update #82</name>
+        <name>text update #85</name>
         <pv_name>$(P)$(R)ImageMode_RBV</pv_name>
         <x>230</x>
         <y>2</y>
@@ -342,7 +357,7 @@
       </widget>
     </widget>
     <widget type="group" version="2.0.0">
-      <name>composite #86</name>
+      <name>composite #89</name>
       <x>105</x>
       <y>130</y>
       <width>201</width>
@@ -350,7 +365,7 @@
       <style>3</style>
       <transparent>true</transparent>
       <widget type="label" version="2.0.0">
-        <name>text #89</name>
+        <name>text #92</name>
         <text>Done</text>
         <x>118</x>
         <width>40</width>
@@ -373,7 +388,7 @@
         </rules>
       </widget>
       <widget type="label" version="2.0.0">
-        <name>text #93</name>
+        <name>text #96</name>
         <text>Collecting</text>
         <x>89</x>
         <font>
@@ -395,7 +410,7 @@
         </rules>
       </widget>
       <widget type="action_button" version="3.0.0">
-        <name>message button #97</name>
+        <name>message button #100</name>
         <actions>
           <action type="write_pv">
             <pv_name>$(P)$(R)Acquire</pv_name>
@@ -415,7 +430,7 @@
         </background_color>
       </widget>
       <widget type="action_button" version="3.0.0">
-        <name>message button #100</name>
+        <name>message button #103</name>
         <actions>
           <action type="write_pv">
             <pv_name>$(P)$(R)Acquire</pv_name>
@@ -435,7 +450,7 @@
         </background_color>
       </widget>
       <widget type="label" version="2.0.0">
-        <name>text #103</name>
+        <name>text #106</name>
         <text>Acquire</text>
         <y>20</y>
         <width>70</width>
@@ -445,21 +460,6 @@
         </font>
         <horizontal_alignment>2</horizontal_alignment>
       </widget>
-    </widget>
-    <widget type="rectangle" version="2.0.0">
-      <name>rectangle #106</name>
-      <width>350</width>
-      <height>280</height>
-      <line_width>1</line_width>
-      <line_color>
-        <color red="0" green="0" blue="0">
-        </color>
-      </line_color>
-      <background_color>
-        <color red="0" green="0" blue="0">
-        </color>
-      </background_color>
-      <transparent>true</transparent>
     </widget>
     <widget type="group" version="2.0.0">
       <name>composite #109</name>

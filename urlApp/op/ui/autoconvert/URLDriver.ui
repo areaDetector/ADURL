@@ -290,6 +290,43 @@ border-radius: 2px;
                     <height>282</height>
                 </rect>
             </property>
+            <widget class="caGraphics" name="caRectangle_1">
+                <property name="form">
+                    <enum>caGraphics::Rectangle</enum>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>0</x>
+                        <y>0</y>
+                        <width>350</width>
+                        <height>280</height>
+                    </rect>
+                </property>
+                <property name="foreground">
+                    <color alpha="255">
+                        <red>0</red>
+                        <green>0</green>
+                        <blue>0</blue>
+                    </color>
+                </property>
+                <property name="background">
+                    <color alpha="0">
+                        <red>0</red>
+                        <green>0</green>
+                        <blue>0</blue>
+                    </color>
+                </property>
+                <property name="lineColor">
+                    <color alpha="255">
+                        <red>0</red>
+                        <green>0</green>
+                        <blue>0</blue>
+                    </color>
+                </property>
+                <property name="linestyle">
+                    <enum>Solid</enum>
+                </property>
+            </widget>
             <widget class="caFrame" name="caFrame_6">
                 <property name="geometry">
                     <rect>
@@ -299,7 +336,7 @@ border-radius: 2px;
                         <height>23</height>
                     </rect>
                 </property>
-                <widget class="caGraphics" name="caRectangle_1">
+                <widget class="caGraphics" name="caRectangle_2">
                     <property name="form">
                         <enum>caGraphics::Rectangle</enum>
                     </property>
@@ -1114,43 +1151,6 @@ border-radius: 2px;
                         </rect>
                     </property>
                 </widget>
-            </widget>
-            <widget class="caGraphics" name="caRectangle_2">
-                <property name="form">
-                    <enum>caGraphics::Rectangle</enum>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>0</x>
-                        <y>0</y>
-                        <width>350</width>
-                        <height>280</height>
-                    </rect>
-                </property>
-                <property name="foreground">
-                    <color alpha="255">
-                        <red>0</red>
-                        <green>0</green>
-                        <blue>0</blue>
-                    </color>
-                </property>
-                <property name="background">
-                    <color alpha="0">
-                        <red>0</red>
-                        <green>0</green>
-                        <blue>0</blue>
-                    </color>
-                </property>
-                <property name="lineColor">
-                    <color alpha="255">
-                        <red>0</red>
-                        <green>0</green>
-                        <blue>0</blue>
-                    </color>
-                </property>
-                <property name="linestyle">
-                    <enum>Solid</enum>
-                </property>
             </widget>
             <widget class="caFrame" name="caFrame_12">
                 <property name="geometry">
@@ -2496,6 +2496,7 @@ border-radius: 2px;
         <zorder>caInclude_3</zorder>
         <zorder>caInclude_4</zorder>
         <zorder>caRectangle_1</zorder>
+        <zorder>caRectangle_2</zorder>
         <zorder>caFrame_6</zorder>
         <zorder>caLabel_1</zorder>
         <zorder>caLabel_2</zorder>
@@ -2510,7 +2511,6 @@ border-radius: 2px;
         <zorder>caLabel_7</zorder>
         <zorder>caLabel_8</zorder>
         <zorder>caFrame_11</zorder>
-        <zorder>caRectangle_2</zorder>
         <zorder>caLabel_9</zorder>
         <zorder>caFrame_12</zorder>
         <zorder>caLabel_10</zorder>

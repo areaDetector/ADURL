@@ -263,6 +263,21 @@ h 280
 
 beginGroup
 
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 360
+y 205
+w 350
+h 280
+lineColor rgb 0 0 0
+fillColor rgb 0 0 0
+lineWidth 0
+endObjectProperties
+
 # (Group)
 object activeGroupClass
 beginObjectProperties
@@ -701,21 +716,6 @@ endGroup
 
 endObjectProperties
 
-
-# (Rectangle)
-object activeRectangleClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 360
-y 205
-w 350
-h 280
-lineColor rgb 0 0 0
-fillColor rgb 0 0 0
-lineWidth 0
-endObjectProperties
 
 # (Group)
 object activeGroupClass
@@ -1768,10 +1768,10 @@ buttonLabel "Setup"
 numPvs 2
 numDsps 1
 displayFileName {
-  0 URLDriverSetup.edl
+  0 "URLDriverSetup.edl"
 }
 menuLabel {
-  0 URL Setup
+  0 "URL Setup"
 }
 symbols {
   0 "P=$(P),R=$(R)"
