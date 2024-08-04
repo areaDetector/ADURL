@@ -22,42 +22,10 @@
 #include <Magick++.h>
 using namespace Magick;
 
-#include "ADDriver.h"
-
 #include <epicsExport.h>
-
-#define DRIVER_VERSION      2
-#define DRIVER_REVISION     3
-#define DRIVER_MODIFICATION 0
+#include <URLDriver.h>
 
 static const char *driverName = "URLDriver";
-
-/** URL driver; reads images from URLs, such as Web cameras and Axis video servers, but also files, etc. */
-class URLDriver : public ADDriver {
-public:
-    URLDriver(const char *portName, int maxBuffers, size_t maxMemory,
-              int priority, int stackSize);
-
-    /* These are the methods that we override from ADDriver */
-    virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
-    virtual void report(FILE *fp, int details);
-    void URLTask(); /**< Should be private, but gets called from C, so must be public */
-
-protected:
-    int URLName;
-    #define FIRST_URL_DRIVER_PARAM URLName
-
-private:
-    /* These are the methods that are new to this class */
-    virtual asynStatus readImage();
-
-    /* Our data */
-    Image image;
-    epicsEventId startEventId;
-    epicsEventId stopEventId;
-};
-
-#define URLNameString "URL_NAME"
 
 
 asynStatus URLDriver::readImage()
