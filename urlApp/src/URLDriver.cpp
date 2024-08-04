@@ -256,7 +256,7 @@ void URLDriver::URLTask()
     }
 }
 
-
+
 /** Called when asyn clients call pasynInt32->write().
   * This function performs actions for some parameters, including ADAcquire, ADColorMode, etc.
   * For all parameters it sets the value in the parameter library and calls any registered callbacks..
@@ -305,7 +305,7 @@ asynStatus URLDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 
 
 
-
+
 /** Report status of the driver.
   * Prints details about the driver if details>0.
   * It then calls the ADDriver::report() method.
