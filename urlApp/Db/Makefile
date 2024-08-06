@@ -12,6 +12,9 @@ include $(TOP)/configure/CONFIG
 # databases, templates, substitutions like this
 
 DB += URLDriver.template
+ifeq ($(WITH_CURL), YES)
+	DB += CurlUsage.template
+endif
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add

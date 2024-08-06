@@ -1,0 +1,12 @@
+# Records to toggle curl functionalities
+
+record (bo, "$(P)$(R)UseCurl")
+{
+    field(DESC, "Toggle curl usage")
+    field(DTYP, "asynInt32")
+    field(PINI, "YES")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))USE_CURL")
+    info(autosaveFields, "VAL")
+}

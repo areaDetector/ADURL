@@ -371,6 +371,10 @@ URLDriver::URLDriver(const char *portName, int maxBuffers, size_t maxMemory,
 
     createParam(URLNameString,      asynParamOctet, &URLName);
 
+    #ifdef ADURL_USE_CURL
+    createParam(UseCurlString,      asynParamInt32, &useCurl);
+    #endif
+
     /* Set some default values for parameters */
     status =  setStringParam (ADManufacturer, "URL Driver");
     status |= setStringParam (ADModel, "GraphicsMagick");
