@@ -333,6 +333,11 @@ asynStatus URLDriver::writeOctet(asynUser *pasynUser, const char *value, size_t 
     status |= setStringParam(addr, function, (char *)value);
 
     if (function < FIRST_URL_DRIVER_PARAM) {
+
+        if (function==NDFileName or function==NDFilePath){
+            this->completeFullPath();
+        }
+
         status |= ADDriver::writeOctet(pasynUser, value, nChars, nActual);
 
     } else if (function == curlOptUserName) {
@@ -348,6 +353,37 @@ asynStatus URLDriver::writeOctet(asynUser *pasynUser, const char *value, size_t 
     return (asynStatus)status;
 
 }
+
+/* Called each time filePath or fileName is changed to check if file is accessible.
+   Should only be called inside writeOctet() so needn't call callbacks. */
+asynStatus URLDriver::completeFullPath()
+{
+
+    char fullFileName[MAX_FILENAME_LEN];
+    int status = 0;
+    const char * functionName = "completeFullPath";
+    struct stat file;
+
+    status = ADDriver::createFileName(2*MAX_FILENAME_LEN, fullFileName);
+
+    if (status) {
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                  "%s:%s: Failed to create full filename.\n", driverName, functionName);
+        return (asynStatus)status;
+    }
+
+    setStringParam(NDFullFileName, fullFileName);
+
+    /* Check if file is accessible */
+    if (stat(fullFileName, &(file)) == 0 &&
+    S_ISREG(file.st_mode) &&
+    access(fullFileName, R_OK) == 0){setIntegerParam(fileIsValid, 1);}
+    else {setIntegerParam(fileIsValid, 0);}
+
+    return asynSuccess;
+
+}
+
 #endif
 
 
@@ -418,6 +454,8 @@ URLDriver::URLDriver(const char *portName, int maxBuffers, size_t maxMemory,
 
     #ifdef ADURL_USE_CURL
     createParam(UseCurlString,              asynParamInt32, &useCurl);
+    createParam(CurlLoadConfigString,       asynParamInt32, &curlLoadConfig);
+    createParam(CurlFileIsValidString,      asynParamInt32, &fileIsValid);
     createParam(CurlOptHttpAuthString,      asynParamInt32, &curlOptHttpAuth);
     createParam(CurlOptSSLVerifyHostString, asynParamInt32, &curlOptSSLVerifyHost);
     createParam(CurlOptSSLVerifyPeerString, asynParamInt32, &curlOptSSLVerifyPeer);
@@ -428,8 +466,11 @@ URLDriver::URLDriver(const char *portName, int maxBuffers, size_t maxMemory,
     setIntegerParam(curlOptHttpAuth,      0);
     setIntegerParam(curlOptSSLVerifyHost, 2L);
     setIntegerParam(curlOptSSLVerifyPeer, 1);
-    setStringParam(curlOptUserName, "\0");
-    setStringParam(curlOptPassword, "\0");
+    setStringParam(curlOptUserName,       "\0");
+    setStringParam(curlOptPassword,       "\0");
+
+    /* FileTEmplate parameter won't use complicated templates here */
+    setStringParam(NDFileTemplate, "%s%s");
     this->initializeCurl();
     #endif
 

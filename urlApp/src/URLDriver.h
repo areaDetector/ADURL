@@ -2,6 +2,9 @@
 
 #ifdef ADURL_USE_CURL
     #include <curl/curl.h>
+    #include <fstream>
+    #include <sys/stat.h>
+    #include <unistd.h>
 #endif
 
 #define DRIVER_VERSION      2
@@ -21,6 +24,7 @@ public:
 
     #ifdef ADURL_USE_CURL
     virtual asynStatus writeOctet(asynUser *pasynUser, const char *value, size_t nChars, size_t *nActual);
+    asynStatus completeFullPath();
     void initializeCurl();
     #endif
 
@@ -30,6 +34,8 @@ protected:
 
     #ifdef ADURL_USE_CURL
     int useCurl;
+    int curlLoadConfig;
+    int fileIsValid;
     int curlOptHttpAuth;
     int curlOptSSLVerifyHost;
     int curlOptSSLVerifyPeer;
@@ -59,6 +65,8 @@ private:
 
 #ifdef ADURL_USE_CURL
     #define UseCurlString              "USE_CURL"
+    #define CurlLoadConfigString       "CURL_LOAD_CONFIG"
+    #define CurlFileIsValidString      "FILE_IS_VALID"
     #define CurlOptHttpAuthString      "ASYN_CURLOPT_HTTPAUTH"
     #define CurlOptSSLVerifyHostString "ASYN_CURLOPT_SSL_VERIFYHOST"
     #define CurlOptSSLVerifyPeerString "ASYN_CURLOPT_SSL_VERIFYPEER"

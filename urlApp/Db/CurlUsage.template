@@ -1,5 +1,7 @@
 # Records to toggle curl functionalities
 
+include "CurlConfigFile.template"
+
 record (bo, "$(P)$(R)UseCurl")
 {
     field(DESC, "Toggle curl usage")
