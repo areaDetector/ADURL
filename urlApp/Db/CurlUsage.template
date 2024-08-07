@@ -39,3 +39,16 @@ record (mbbo, "$(P)$(R)CurlOptHTTPAuth")
     field(TEVL, "10")
     field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))ASYN_CURLOPT_HTTPAUTH")
 }
+
+record (mbbo, "$(P)$(R)CurlOptSSLVerifyHost")
+{
+    field(DESC, "Verify Host SSL certificate")
+    field(DTYP, "asynInt32")
+    field(ZRST, "NO")
+    field(ZRVL, "0")
+    field(ONST, "YES")
+    field(ONVL, "1")
+    field(TWST, "YES")
+    field(TWVL, "2")
+    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))ASYN_CURLOPT_SSL_VERIFYHOST")
+}

@@ -30,6 +30,7 @@ protected:
     #ifdef ADURL_USE_CURL
     int useCurl;
     int curlOptHttpAuth;
+    int curlOptSSLVerifyHost;
     CURL *curl = NULL;
     CURLcode res;
 
@@ -52,6 +53,7 @@ private:
 #define URLNameString "URL_NAME"
 
 #ifdef ADURL_USE_CURL
-    #define UseCurlString "USE_CURL"
-    #define CurlOptHttpAuthString "ASYN_CURLOPT_HTTPAUTH"
+    #define UseCurlString              "USE_CURL"
+    #define CurlOptHttpAuthString      "ASYN_CURLOPT_HTTPAUTH"
+    #define CurlOptSSLVerifyHostString "ASYN_CURLOPT_SSL_VERIFYHOST"
 #endif

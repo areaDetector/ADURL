@@ -301,6 +301,9 @@ asynStatus URLDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
     } else if (function==curlOptHttpAuth) {
         getIntegerParam(curlOptHttpAuth, &itemp);
         curl_easy_setopt(curl, CURLOPT_HTTPAUTH, CurlHttpOptions[itemp]);
+    } else if (function==curlOptSSLVerifyHost) {
+        getIntegerParam(curlOptSSLVerifyHost, &itemp);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, (long)itemp);
     #endif
     } else {
         /* If this parameter belongs to a base class call its method */
@@ -390,11 +393,13 @@ URLDriver::URLDriver(const char *portName, int maxBuffers, size_t maxMemory,
     createParam(URLNameString,      asynParamOctet, &URLName);
 
     #ifdef ADURL_USE_CURL
-    createParam(UseCurlString,         asynParamInt32, &useCurl);
-    createParam(CurlOptHttpAuthString, asynParamInt32, &curlOptHttpAuth);
+    createParam(UseCurlString,              asynParamInt32, &useCurl);
+    createParam(CurlOptHttpAuthString,      asynParamInt32, &curlOptHttpAuth);
+    createParam(CurlOptSSLVerifyHostString, asynParamInt32, &curlOptSSLVerifyHost);
 
-    setIntegerParam(useCurl,         0);
-    setIntegerParam(curlOptHttpAuth, 0);
+    setIntegerParam(useCurl,              0);
+    setIntegerParam(curlOptHttpAuth,      0);
+    setIntegerParam(curlOptSSLVerifyHost, 2L);
     this->initializeCurl();
     #endif
 
