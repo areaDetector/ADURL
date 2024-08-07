@@ -52,3 +52,13 @@ record (mbbo, "$(P)$(R)CurlOptSSLVerifyHost")
     field(TWVL, "2")
     field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))ASYN_CURLOPT_SSL_VERIFYHOST")
 }
+
+record (bo, "$(P)$(R)CurlOptSSLVerifyPeer")
+{
+    field(DESC, "Verify SSL peer")
+    field(DTYP, "asynInt32")
+    field(PINI, "YES")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))ASYN_CURLOPT_SSL_VERIFYPEER")
+}

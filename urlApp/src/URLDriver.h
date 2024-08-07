@@ -31,6 +31,7 @@ protected:
     int useCurl;
     int curlOptHttpAuth;
     int curlOptSSLVerifyHost;
+    int curlOptSSLVerifyPeer;
     CURL *curl = NULL;
     CURLcode res;
 
@@ -56,4 +57,5 @@ private:
     #define UseCurlString              "USE_CURL"
     #define CurlOptHttpAuthString      "ASYN_CURLOPT_HTTPAUTH"
     #define CurlOptSSLVerifyHostString "ASYN_CURLOPT_SSL_VERIFYHOST"
+    #define CurlOptSSLVerifyPeerString "ASYN_CURLOPT_SSL_VERIFYPEER"
 #endif

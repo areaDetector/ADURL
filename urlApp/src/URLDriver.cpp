@@ -304,6 +304,9 @@ asynStatus URLDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
     } else if (function==curlOptSSLVerifyHost) {
         getIntegerParam(curlOptSSLVerifyHost, &itemp);
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, (long)itemp);
+    } else if (function==curlOptSSLVerifyPeer) {
+        getIntegerParam(curlOptSSLVerifyPeer, &itemp);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, itemp);
     #endif
     } else {
         /* If this parameter belongs to a base class call its method */
@@ -396,10 +399,12 @@ URLDriver::URLDriver(const char *portName, int maxBuffers, size_t maxMemory,
     createParam(UseCurlString,              asynParamInt32, &useCurl);
     createParam(CurlOptHttpAuthString,      asynParamInt32, &curlOptHttpAuth);
     createParam(CurlOptSSLVerifyHostString, asynParamInt32, &curlOptSSLVerifyHost);
+    createParam(CurlOptSSLVerifyPeerString, asynParamInt32, &curlOptSSLVerifyPeer);
 
     setIntegerParam(useCurl,              0);
     setIntegerParam(curlOptHttpAuth,      0);
     setIntegerParam(curlOptSSLVerifyHost, 2L);
+    setIntegerParam(curlOptSSLVerifyPeer, 1);
     this->initializeCurl();
     #endif
 
