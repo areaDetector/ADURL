@@ -27,6 +27,16 @@ using namespace Magick;
 
 static const char *driverName = "URLDriver";
 
+#ifdef ADURL_USE_CURL
+void URLDriver::initializeCurl(){
+    curl_global_init(CURL_GLOBAL_DEFAULT);
+    this->curl = curl_easy_init();
+    if (!curl){
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                  "%s:%s: ERROR, cannot initialize curl pointer.\n", driverName, __func__);
+    }
+}
+#endif
 
 asynStatus URLDriver::readImage()
 {
@@ -373,6 +383,7 @@ URLDriver::URLDriver(const char *portName, int maxBuffers, size_t maxMemory,
 
     #ifdef ADURL_USE_CURL
     createParam(UseCurlString,      asynParamInt32, &useCurl);
+    this->initializeCurl();
     #endif
 
     /* Set some default values for parameters */

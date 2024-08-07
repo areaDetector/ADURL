@@ -19,12 +19,18 @@ public:
     virtual void report(FILE *fp, int details);
     void URLTask(); /**< Should be private, but gets called from C, so must be public */
 
+    #ifdef ADURL_USE_CURL
+    void initializeCurl();
+    #endif
+
 protected:
     int URLName;
     #define FIRST_URL_DRIVER_PARAM URLName
 
     #ifdef ADURL_USE_CURL
     int useCurl;
+    CURL *curl = NULL;
+    CURLcode res;
     #endif
 
 private:
