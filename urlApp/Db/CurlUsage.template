@@ -71,3 +71,12 @@ record(waveform, "$(P)$(R)CurlOptUserName")
     field(FTVL, "CHAR")
     field(NELM, "128")
 }
+
+record(waveform, "$(P)$(R)CurlOptPassword")
+{
+    field(DESC, "Password for auth. Try not to use this.")
+    field(DTYP, "asynOctetWrite")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))ASYN_CURLOPT_PASSWORD")
+    field(FTVL, "CHAR")
+    field(NELM, "128")
+}

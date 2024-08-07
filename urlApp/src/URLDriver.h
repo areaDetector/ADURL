@@ -34,6 +34,7 @@ protected:
     int curlOptSSLVerifyHost;
     int curlOptSSLVerifyPeer;
     int curlOptUserName;
+    int curlOptPassword;
     #define MAXCURLSTRCHARS 128
     CURL *curl = NULL;
     CURLcode res;
@@ -62,4 +63,5 @@ private:
     #define CurlOptSSLVerifyHostString "ASYN_CURLOPT_SSL_VERIFYHOST"
     #define CurlOptSSLVerifyPeerString "ASYN_CURLOPT_SSL_VERIFYPEER"
     #define CurlOptUserNameString      "ASYN_CURLOPT_USERNAME"
+    #define CurlOptPasswordString      "ASYN_CURLOPT_PASSWORD"
 #endif

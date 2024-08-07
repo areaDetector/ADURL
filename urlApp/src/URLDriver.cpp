@@ -328,7 +328,7 @@ asynStatus URLDriver::writeOctet(asynUser *pasynUser, const char *value, size_t 
     int addr = 0;
     int function = pasynUser->reason;
     int status = 0;
-    char userName[MAXCURLSTRCHARS] = {'\0'};
+    char param[MAXCURLSTRCHARS] = {'\0'};
 
     status |= setStringParam(addr, function, (char *)value);
 
@@ -336,8 +336,11 @@ asynStatus URLDriver::writeOctet(asynUser *pasynUser, const char *value, size_t 
         status |= ADDriver::writeOctet(pasynUser, value, nChars, nActual);
 
     } else if (function == curlOptUserName) {
-        getStringParam(curlOptUserName, MAXCURLSTRCHARS, userName);
-        curl_easy_setopt(curl, CURLOPT_USERNAME, userName);
+        getStringParam(curlOptUserName, MAXCURLSTRCHARS, param);
+        curl_easy_setopt(curl, CURLOPT_USERNAME, param);
+    } else if (function == curlOptPassword) {
+        getStringParam(curlOptPassword, MAXCURLSTRCHARS, param);
+        curl_easy_setopt(curl, CURLOPT_PASSWORD, param);
     }
 
     callParamCallbacks(addr);
@@ -419,12 +422,14 @@ URLDriver::URLDriver(const char *portName, int maxBuffers, size_t maxMemory,
     createParam(CurlOptSSLVerifyHostString, asynParamInt32, &curlOptSSLVerifyHost);
     createParam(CurlOptSSLVerifyPeerString, asynParamInt32, &curlOptSSLVerifyPeer);
     createParam(CurlOptUserNameString,      asynParamOctet, &curlOptUserName);
+    createParam(CurlOptPasswordString,      asynParamOctet, &curlOptPassword);
 
     setIntegerParam(useCurl,              0);
     setIntegerParam(curlOptHttpAuth,      0);
     setIntegerParam(curlOptSSLVerifyHost, 2L);
     setIntegerParam(curlOptSSLVerifyPeer, 1);
     setStringParam(curlOptUserName, "\0");
+    setStringParam(curlOptPassword, "\0");
     this->initializeCurl();
     #endif
 
