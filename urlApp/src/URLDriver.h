@@ -29,8 +29,14 @@ protected:
 
     #ifdef ADURL_USE_CURL
     int useCurl;
+    int curlOptHttpAuth;
     CURL *curl = NULL;
     CURLcode res;
+
+    /*Array to translate CurlHttpAuth options*/
+    long unsigned int CurlHttpOptions [11] = {CURLAUTH_BASIC, CURLAUTH_DIGEST, CURLAUTH_DIGEST_IE, CURLAUTH_BEARER,
+                         CURLAUTH_NEGOTIATE, CURLAUTH_NTLM, CURLAUTH_NTLM_WB, CURLAUTH_ANY,
+                         CURLAUTH_ANYSAFE, CURLAUTH_ONLY, CURLAUTH_AWS_SIGV4};
     #endif
 
 private:
@@ -47,4 +53,5 @@ private:
 
 #ifdef ADURL_USE_CURL
     #define UseCurlString "USE_CURL"
+    #define CurlOptHttpAuthString "ASYN_CURLOPT_HTTPAUTH"
 #endif

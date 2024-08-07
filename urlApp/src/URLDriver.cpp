@@ -277,6 +277,9 @@ asynStatus URLDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
     int function = pasynUser->reason;
     int adstatus;
     asynStatus status = asynSuccess;
+    #ifdef ADURL_USE_CURL
+    int itemp;
+    #endif
 
     /* Set the parameter and readback in the parameter library.  This may be overwritten when we read back the
      * status at the end, but that's OK */
@@ -294,6 +297,11 @@ asynStatus URLDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
             /* Send the stop event */
             epicsEventSignal(this->stopEventId);
         }
+    #ifdef ADURL_USE_CURL
+    } else if (function==curlOptHttpAuth) {
+        getIntegerParam(curlOptHttpAuth, &itemp);
+        curl_easy_setopt(curl, CURLOPT_HTTPAUTH, CurlHttpOptions[itemp]);
+    #endif
     } else {
         /* If this parameter belongs to a base class call its method */
         if (function < FIRST_URL_DRIVER_PARAM) status = ADDriver::writeInt32(pasynUser, value);
@@ -382,7 +390,11 @@ URLDriver::URLDriver(const char *portName, int maxBuffers, size_t maxMemory,
     createParam(URLNameString,      asynParamOctet, &URLName);
 
     #ifdef ADURL_USE_CURL
-    createParam(UseCurlString,      asynParamInt32, &useCurl);
+    createParam(UseCurlString,         asynParamInt32, &useCurl);
+    createParam(CurlOptHttpAuthString, asynParamInt32, &curlOptHttpAuth);
+
+    setIntegerParam(useCurl,         0);
+    setIntegerParam(curlOptHttpAuth, 0);
     this->initializeCurl();
     #endif
 
