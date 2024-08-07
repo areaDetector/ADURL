@@ -20,6 +20,7 @@ public:
     void URLTask(); /**< Should be private, but gets called from C, so must be public */
 
     #ifdef ADURL_USE_CURL
+    virtual asynStatus writeOctet(asynUser *pasynUser, const char *value, size_t nChars, size_t *nActual);
     void initializeCurl();
     #endif
 
@@ -32,6 +33,8 @@ protected:
     int curlOptHttpAuth;
     int curlOptSSLVerifyHost;
     int curlOptSSLVerifyPeer;
+    int curlOptUserName;
+    #define MAXCURLSTRCHARS 128
     CURL *curl = NULL;
     CURLcode res;
 
@@ -58,4 +61,5 @@ private:
     #define CurlOptHttpAuthString      "ASYN_CURLOPT_HTTPAUTH"
     #define CurlOptSSLVerifyHostString "ASYN_CURLOPT_SSL_VERIFYHOST"
     #define CurlOptSSLVerifyPeerString "ASYN_CURLOPT_SSL_VERIFYPEER"
+    #define CurlOptUserNameString      "ASYN_CURLOPT_USERNAME"
 #endif

@@ -62,3 +62,12 @@ record (bo, "$(P)$(R)CurlOptSSLVerifyPeer")
     field(ONAM, "YES")
     field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))ASYN_CURLOPT_SSL_VERIFYPEER")
 }
+
+record(waveform, "$(P)$(R)CurlOptUserName")
+{
+    field(DESC, "Username for auth. Try not to use this.")
+    field(DTYP, "asynOctetWrite")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))ASYN_CURLOPT_USERNAME")
+    field(FTVL, "CHAR")
+    field(NELM, "128")
+}

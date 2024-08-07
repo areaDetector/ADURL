@@ -321,7 +321,31 @@ asynStatus URLDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
     return status;
 }
 
+#ifdef ADURL_USE_CURL
+asynStatus URLDriver::writeOctet(asynUser *pasynUser, const char *value, size_t nChars, size_t *nActual)
+{
 
+    int addr = 0;
+    int function = pasynUser->reason;
+    int status = 0;
+    char userName[MAXCURLSTRCHARS] = {'\0'};
+
+    status |= setStringParam(addr, function, (char *)value);
+
+    if (function < FIRST_URL_DRIVER_PARAM) {
+        status |= ADDriver::writeOctet(pasynUser, value, nChars, nActual);
+
+    } else if (function == curlOptUserName) {
+        getStringParam(curlOptUserName, MAXCURLSTRCHARS, userName);
+        curl_easy_setopt(curl, CURLOPT_USERNAME, userName);
+    }
+
+    callParamCallbacks(addr);
+    *nActual = nChars;
+    return (asynStatus)status;
+
+}
+#endif
 
 
 /** Report status of the driver.
@@ -394,11 +418,13 @@ URLDriver::URLDriver(const char *portName, int maxBuffers, size_t maxMemory,
     createParam(CurlOptHttpAuthString,      asynParamInt32, &curlOptHttpAuth);
     createParam(CurlOptSSLVerifyHostString, asynParamInt32, &curlOptSSLVerifyHost);
     createParam(CurlOptSSLVerifyPeerString, asynParamInt32, &curlOptSSLVerifyPeer);
+    createParam(CurlOptUserNameString,      asynParamOctet, &curlOptUserName);
 
     setIntegerParam(useCurl,              0);
     setIntegerParam(curlOptHttpAuth,      0);
     setIntegerParam(curlOptSSLVerifyHost, 2L);
     setIntegerParam(curlOptSSLVerifyPeer, 1);
+    setStringParam(curlOptUserName, "\0");
     this->initializeCurl();
     #endif
 
