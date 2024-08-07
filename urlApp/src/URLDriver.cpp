@@ -277,9 +277,6 @@ asynStatus URLDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
     int function = pasynUser->reason;
     int adstatus;
     asynStatus status = asynSuccess;
-    #ifdef ADURL_USE_CURL
-    int itemp;
-    #endif
 
     /* Set the parameter and readback in the parameter library.  This may be overwritten when we read back the
      * status at the end, but that's OK */
@@ -299,14 +296,11 @@ asynStatus URLDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
         }
     #ifdef ADURL_USE_CURL
     } else if (function==curlOptHttpAuth) {
-        getIntegerParam(curlOptHttpAuth, &itemp);
-        curl_easy_setopt(curl, CURLOPT_HTTPAUTH, CurlHttpOptions[itemp]);
+        curl_easy_setopt(curl, CURLOPT_HTTPAUTH, CurlHttpOptions[value]);
     } else if (function==curlOptSSLVerifyHost) {
-        getIntegerParam(curlOptSSLVerifyHost, &itemp);
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, (long)itemp);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, (long)value);
     } else if (function==curlOptSSLVerifyPeer) {
-        getIntegerParam(curlOptSSLVerifyPeer, &itemp);
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, itemp);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, value);
     #endif
     } else {
         /* If this parameter belongs to a base class call its method */
