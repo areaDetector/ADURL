@@ -25,6 +25,7 @@ public:
     #ifdef ADURL_USE_CURL
     virtual asynStatus writeOctet(asynUser *pasynUser, const char *value, size_t nChars, size_t *nActual);
     asynStatus completeFullPath();
+    asynStatus loadConfigFile();
     void initializeCurl();
     #endif
 
@@ -59,6 +60,7 @@ private:
     Image image;
     epicsEventId startEventId;
     epicsEventId stopEventId;
+
 };
 
 #define URLNameString "URL_NAME"
