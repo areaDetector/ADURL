@@ -35,6 +35,10 @@ void URLDriver::initializeCurl(){
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
                   "%s:%s: ERROR, cannot initialize curl pointer.\n", driverName, __func__);
     }
+
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &curlBuffer);
+
 }
 #endif
 
@@ -53,11 +57,31 @@ asynStatus URLDriver::readImage()
     int depth;
     const char *map;
     static const char *functionName = "readImage";
-    
+
     getStringParam(URLName, sizeof(URLString), URLString);
+    #ifdef ADURL_USE_CURL
+    int use_curl;
+    getIntegerParam(useCurl, &use_curl);
+    #endif
     if (strlen(URLString) == 0) return(asynError);
     try {
+        #ifdef ADURL_USE_CURL
+        if (use_curl) {
+            this->curlBuffer.clear();
+            this->res = curl_easy_perform(curl);
+            if (res != CURLE_OK){
+                asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, "%s:%s: curl read error %d\n",
+                        driverName, functionName, res);
+                return(asynError);
+            }
+            Blob blob(&curlBuffer[0], curlBuffer.size());
+            image.read(blob);
+        } else {
+            image.read(URLString);
+        }
+        #else
         image.read(URLString);
+        #endif
         imageType = image.type();
         depth = image.depth();
         nrows = image.rows();
@@ -471,6 +495,14 @@ asynStatus URLDriver::loadConfigFile()
     file.close();
     return (asynStatus)status;
 
+}
+
+size_t URLDriver::curlWriteCallback(void* contents, size_t size, size_t nmemb, void* userp)
+{
+    int totalSize = size * nmemb;
+
+    ((std::vector<char>*)userp)->insert(((std::vector<char>*)userp)->end(), (char*)contents, (char*)contents + totalSize);
+    return totalSize;
 }
 
 #endif

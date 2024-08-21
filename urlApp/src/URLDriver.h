@@ -27,6 +27,7 @@ public:
     asynStatus completeFullPath();
     asynStatus loadConfigFile();
     void initializeCurl();
+    static size_t curlWriteCallback(void* contents, size_t size, size_t nmemb, void* userp);
     #endif
 
 protected:
@@ -45,6 +46,7 @@ protected:
     #define MAXCURLSTRCHARS 128
     CURL *curl = NULL;
     CURLcode res;
+    std::vector<char> curlBuffer;
 
     /*Array to translate CurlHttpAuth options*/
     long unsigned int CurlHttpOptions [11] = {CURLAUTH_BASIC, CURLAUTH_DIGEST, CURLAUTH_DIGEST_IE, CURLAUTH_BEARER,
