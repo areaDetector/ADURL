@@ -104,8 +104,8 @@ asynStatus URLDriver::readImage()
             colorMode = NDColorModeRGB1;
             break;
         default:
-            asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
-                "%s:%s: unknown ImageType=%d\n", 
+            asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                "%s:%s: unknown ImageType=%d\n",
                 driverName, functionName, imageType);
             return(asynError);
             break;
@@ -125,8 +125,8 @@ asynStatus URLDriver::readImage()
             storageType = IntegerPixel;
             break;
         default:
-            asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
-                "%s:%s: unsupported depth=%d\n", 
+            asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                "%s:%s: unsupported depth=%d\n",
                 driverName, functionName, depth);
             return(asynError);
             break;
@@ -136,7 +136,7 @@ asynStatus URLDriver::readImage()
         pImage = this->pArrays[0];
         asynPrint(this->pasynUserSelf, ASYN_TRACEIO_DRIVER,
             "%s:%s: reading URL=%s, dimensions=[%lu,%lu,%lu], ImageType=%d, depth=%d\n",
-            driverName, functionName, URLString, 
+            driverName, functionName, URLString,
             (unsigned long)dims[0], (unsigned long)dims[1], (unsigned long)dims[2], imageType, depth);
         image.write(0, 0, ncols, nrows, map, storageType, pImage->pData);
         pImage->pAttributeList->add("ColorMode", "Color mode", NDAttrInt32, &colorMode);
@@ -151,12 +151,12 @@ asynStatus URLDriver::readImage()
     }
     catch(std::exception &error)
     {
-        asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR, 
-            "%s:%s: error reading URL=%s\n", 
+        asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR,
+            "%s:%s: error reading URL=%s\n",
             driverName, functionName, error.what());
         return(asynError);
     }
-         
+
     return(asynSuccess);
 }
 
@@ -547,7 +547,7 @@ void URLDriver::report(FILE *fp, int details)
   * \param[in] priority The thread priority for the asyn port driver thread if ASYN_CANBLOCK is set in asynFlags.
   * \param[in] stackSize The stack size for the asyn port driver thread if ASYN_CANBLOCK is set in asynFlags.
   */
-URLDriver::URLDriver(const char *portName, int maxBuffers, size_t maxMemory, 
+URLDriver::URLDriver(const char *portName, int maxBuffers, size_t maxMemory,
                      int priority, int stackSize)
 
     : ADDriver(portName, 1, 0, maxBuffers, maxMemory,
@@ -601,7 +601,7 @@ URLDriver::URLDriver(const char *portName, int maxBuffers, size_t maxMemory,
     /* Set some default values for parameters */
     status =  setStringParam (ADManufacturer, "URL Driver");
     status |= setStringParam (ADModel, "GraphicsMagick");
-    epicsSnprintf(versionString, sizeof(versionString), "%d.%d.%d", 
+    epicsSnprintf(versionString, sizeof(versionString), "%d.%d.%d",
                   DRIVER_VERSION, DRIVER_REVISION, DRIVER_MODIFICATION);
     setStringParam(NDDriverVersion, versionString);
     setStringParam(ADSDKVersion, MagickLibVersionText);
@@ -626,7 +626,7 @@ URLDriver::URLDriver(const char *portName, int maxBuffers, size_t maxMemory,
 }
 
 /** Configuration command, called directly or from iocsh */
-extern "C" int URLDriverConfig(const char *portName, int maxBuffers, size_t maxMemory, 
+extern "C" int URLDriverConfig(const char *portName, int maxBuffers, size_t maxMemory,
                                int priority, int stackSize)
 {
     /* Initialize GraphicsMagick */
