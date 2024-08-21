@@ -372,6 +372,9 @@ asynStatus URLDriver::writeOctet(asynUser *pasynUser, const char *value, size_t 
     } else if (function == curlOptPassword) {
         getStringParam(curlOptPassword, MAXCURLSTRCHARS, param);
         curl_easy_setopt(curl, CURLOPT_PASSWORD, param);
+    } else if (function == URLName) {
+        getStringParam(URLName, MAXCURLSTRCHARS, param);
+        curl_easy_setopt(curl, CURLOPT_URL, param);
     }
 
     callParamCallbacks(addr);
