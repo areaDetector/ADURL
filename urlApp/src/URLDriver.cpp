@@ -35,6 +35,10 @@ void URLDriver::initializeCurl(){
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
                   "%s:%s: ERROR, cannot initialize curl pointer.\n", driverName, __func__);
     }
+
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &curlBuffer);
+
 }
 #endif
 
@@ -53,11 +57,31 @@ asynStatus URLDriver::readImage()
     int depth;
     const char *map;
     static const char *functionName = "readImage";
-    
+
     getStringParam(URLName, sizeof(URLString), URLString);
+    #ifdef ADURL_USE_CURL
+    int use_curl;
+    getIntegerParam(useCurl, &use_curl);
+    #endif
     if (strlen(URLString) == 0) return(asynError);
     try {
+        #ifdef ADURL_USE_CURL
+        if (use_curl) {
+            this->curlBuffer.clear();
+            this->res = curl_easy_perform(curl);
+            if (res != CURLE_OK){
+                asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, "%s:%s: curl read error %d\n",
+                        driverName, functionName, res);
+                return(asynError);
+            }
+            Blob blob(&curlBuffer[0], curlBuffer.size());
+            image.read(blob);
+        } else {
+            image.read(URLString);
+        }
+        #else
         image.read(URLString);
+        #endif
         imageType = image.type();
         depth = image.depth();
         nrows = image.rows();
@@ -80,8 +104,8 @@ asynStatus URLDriver::readImage()
             colorMode = NDColorModeRGB1;
             break;
         default:
-            asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
-                "%s:%s: unknown ImageType=%d\n", 
+            asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                "%s:%s: unknown ImageType=%d\n",
                 driverName, functionName, imageType);
             return(asynError);
             break;
@@ -101,8 +125,8 @@ asynStatus URLDriver::readImage()
             storageType = IntegerPixel;
             break;
         default:
-            asynPrint(pasynUserSelf, ASYN_TRACE_ERROR, 
-                "%s:%s: unsupported depth=%d\n", 
+            asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                "%s:%s: unsupported depth=%d\n",
                 driverName, functionName, depth);
             return(asynError);
             break;
@@ -112,7 +136,7 @@ asynStatus URLDriver::readImage()
         pImage = this->pArrays[0];
         asynPrint(this->pasynUserSelf, ASYN_TRACEIO_DRIVER,
             "%s:%s: reading URL=%s, dimensions=[%lu,%lu,%lu], ImageType=%d, depth=%d\n",
-            driverName, functionName, URLString, 
+            driverName, functionName, URLString,
             (unsigned long)dims[0], (unsigned long)dims[1], (unsigned long)dims[2], imageType, depth);
         image.write(0, 0, ncols, nrows, map, storageType, pImage->pData);
         pImage->pAttributeList->add("ColorMode", "Color mode", NDAttrInt32, &colorMode);
@@ -127,12 +151,12 @@ asynStatus URLDriver::readImage()
     }
     catch(std::exception &error)
     {
-        asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR, 
-            "%s:%s: error reading URL=%s\n", 
+        asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR,
+            "%s:%s: error reading URL=%s\n",
             driverName, functionName, error.what());
         return(asynError);
     }
-         
+
     return(asynSuccess);
 }
 
@@ -301,6 +325,8 @@ asynStatus URLDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, (long)value);
     } else if (function==curlOptSSLVerifyPeer) {
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, value);
+    } else if (function==curlLoadConfig) {
+        this->loadConfigFile();
     #endif
     } else {
         /* If this parameter belongs to a base class call its method */
@@ -333,6 +359,11 @@ asynStatus URLDriver::writeOctet(asynUser *pasynUser, const char *value, size_t 
     status |= setStringParam(addr, function, (char *)value);
 
     if (function < FIRST_URL_DRIVER_PARAM) {
+
+        if (function==NDFileName or function==NDFilePath){
+            this->completeFullPath();
+        }
+
         status |= ADDriver::writeOctet(pasynUser, value, nChars, nActual);
 
     } else if (function == curlOptUserName) {
@@ -341,6 +372,9 @@ asynStatus URLDriver::writeOctet(asynUser *pasynUser, const char *value, size_t 
     } else if (function == curlOptPassword) {
         getStringParam(curlOptPassword, MAXCURLSTRCHARS, param);
         curl_easy_setopt(curl, CURLOPT_PASSWORD, param);
+    } else if (function == URLName) {
+        getStringParam(URLName, MAXCURLSTRCHARS, param);
+        curl_easy_setopt(curl, CURLOPT_URL, param);
     }
 
     callParamCallbacks(addr);
@@ -348,6 +382,132 @@ asynStatus URLDriver::writeOctet(asynUser *pasynUser, const char *value, size_t 
     return (asynStatus)status;
 
 }
+
+/* Called each time filePath or fileName is changed to check if file is accessible.
+   Should only be called inside writeOctet() so needn't call callbacks. */
+asynStatus URLDriver::completeFullPath()
+{
+
+    char fullFileName[MAX_FILENAME_LEN];
+    int status = 0;
+    const char * functionName = "completeFullPath";
+    struct stat file;
+
+    status = ADDriver::createFileName(2*MAX_FILENAME_LEN, fullFileName);
+
+    if (status) {
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                  "%s:%s: Failed to create full filename.\n", driverName, functionName);
+        return (asynStatus)status;
+    }
+
+    setStringParam(NDFullFileName, fullFileName);
+
+    /* Check if file is accessible */
+    if (stat(fullFileName, &(file)) == 0 &&
+    S_ISREG(file.st_mode) &&
+    access(fullFileName, R_OK) == 0){setIntegerParam(fileIsValid, 1);}
+    else {setIntegerParam(fileIsValid, 0);}
+
+    return asynSuccess;
+
+}
+
+asynStatus URLDriver::loadConfigFile()
+{
+
+    const char * functionName = "loadConfigFile";
+    char fullFileName[MAX_FILENAME_LEN];
+    std::ifstream file;
+    std::string line, key, value; int valueInt;
+    asynParamType type;
+    int param, status = 0;
+    size_t nActual = 0;
+
+    getStringParam(NDFullFileName, MAX_FILENAME_LEN, fullFileName);
+
+    file.open(fullFileName);
+    if (!file) {
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                        "%s:%s: ERROR, cannot open file %s.\n", driverName, functionName, fullFileName);
+        return asynError;
+    }
+
+    while (getline(file, line)) {
+        key = line.substr(0,line.find("="));
+        value = line.substr(line.find("=")+1, line.back());
+
+        /* Taking spaces out of strings */
+        key.erase(std::remove(key.begin(), key.end(), ' '), key.end());
+        value.erase(std::remove(value.begin(), value.end(), ' '), value.end());
+
+        /* Finding which asyn parameter corersponds to option */
+        key = "ASYN_" + key;
+        asynPortDriver::findParam(key.c_str(), &param);
+        /* asynUser to call writeOctet or writeInt32 later */
+        asynUser tempUser{.reason = param};
+
+        /* If param is credential, set curlOption but don't set asyn record*/
+        if (param == curlOptUserName) {
+            curl_easy_setopt(curl, CURLOPT_USERNAME, value.c_str());
+            continue;
+        } else if (param == curlOptPassword) {
+            curl_easy_setopt(curl, CURLOPT_PASSWORD, value.c_str());
+            continue;
+        }
+
+        if (param == -1){
+            asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                        "%s:%s: ERROR, cannot find parameter %s from config file."
+                        " Is this parameter implemented?\n",
+                        driverName, functionName, key.c_str());
+
+            return asynError;
+        }
+
+        asynPortDriver::getParamType(param, &type);
+        switch (type) {
+            case asynParamInt32:
+                try {
+                    valueInt = stoi(value);
+                } catch (std::invalid_argument&) {
+                    asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                              "%s:%s: ERROR, cannot convert value %s to int for"
+                              " parameter %s\n",
+                              driverName, functionName, value.c_str(), key.c_str());
+                    return asynError;
+                }
+                status |= this->writeInt32(&tempUser, (epicsInt32)valueInt);
+                break;
+            case asynParamOctet:
+                status |= this->writeOctet(&tempUser, value.c_str(), value.size(), &nActual);
+                break;
+            default:
+                asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                        "%s:%s: ERROR, parameter %s is of asynParam type"
+                        " %d. This function only deals with asynParamOctet (%d)"
+                        " and asynParamInt32 (%d).\n",
+                        driverName, functionName, key.c_str(), type,
+                        asynParamOctet, asynParamInt32);
+                return asynError;
+        }
+
+
+    }
+
+    file.close();
+    return (asynStatus)status;
+
+}
+
+size_t URLDriver::curlWriteCallback(void* contents, size_t size, size_t nmemb, void* userp)
+{
+    int totalSize = size * nmemb;
+
+    ((std::vector<char>*)userp)->insert(((std::vector<char>*)userp)->end(), (char*)contents, (char*)contents + totalSize);
+    return totalSize;
+}
+
 #endif
 
 
@@ -387,7 +547,7 @@ void URLDriver::report(FILE *fp, int details)
   * \param[in] priority The thread priority for the asyn port driver thread if ASYN_CANBLOCK is set in asynFlags.
   * \param[in] stackSize The stack size for the asyn port driver thread if ASYN_CANBLOCK is set in asynFlags.
   */
-URLDriver::URLDriver(const char *portName, int maxBuffers, size_t maxMemory, 
+URLDriver::URLDriver(const char *portName, int maxBuffers, size_t maxMemory,
                      int priority, int stackSize)
 
     : ADDriver(portName, 1, 0, maxBuffers, maxMemory,
@@ -418,6 +578,8 @@ URLDriver::URLDriver(const char *portName, int maxBuffers, size_t maxMemory,
 
     #ifdef ADURL_USE_CURL
     createParam(UseCurlString,              asynParamInt32, &useCurl);
+    createParam(CurlLoadConfigString,       asynParamInt32, &curlLoadConfig);
+    createParam(CurlFileIsValidString,      asynParamInt32, &fileIsValid);
     createParam(CurlOptHttpAuthString,      asynParamInt32, &curlOptHttpAuth);
     createParam(CurlOptSSLVerifyHostString, asynParamInt32, &curlOptSSLVerifyHost);
     createParam(CurlOptSSLVerifyPeerString, asynParamInt32, &curlOptSSLVerifyPeer);
@@ -428,15 +590,18 @@ URLDriver::URLDriver(const char *portName, int maxBuffers, size_t maxMemory,
     setIntegerParam(curlOptHttpAuth,      0);
     setIntegerParam(curlOptSSLVerifyHost, 2L);
     setIntegerParam(curlOptSSLVerifyPeer, 1);
-    setStringParam(curlOptUserName, "\0");
-    setStringParam(curlOptPassword, "\0");
+    setStringParam(curlOptUserName,       "\0");
+    setStringParam(curlOptPassword,       "\0");
+
+    /* FileTEmplate parameter won't use complicated templates here */
+    setStringParam(NDFileTemplate, "%s%s");
     this->initializeCurl();
     #endif
 
     /* Set some default values for parameters */
     status =  setStringParam (ADManufacturer, "URL Driver");
     status |= setStringParam (ADModel, "GraphicsMagick");
-    epicsSnprintf(versionString, sizeof(versionString), "%d.%d.%d", 
+    epicsSnprintf(versionString, sizeof(versionString), "%d.%d.%d",
                   DRIVER_VERSION, DRIVER_REVISION, DRIVER_MODIFICATION);
     setStringParam(NDDriverVersion, versionString);
     setStringParam(ADSDKVersion, MagickLibVersionText);
@@ -461,7 +626,7 @@ URLDriver::URLDriver(const char *portName, int maxBuffers, size_t maxMemory,
 }
 
 /** Configuration command, called directly or from iocsh */
-extern "C" int URLDriverConfig(const char *portName, int maxBuffers, size_t maxMemory, 
+extern "C" int URLDriverConfig(const char *portName, int maxBuffers, size_t maxMemory,
                                int priority, int stackSize)
 {
     /* Initialize GraphicsMagick */

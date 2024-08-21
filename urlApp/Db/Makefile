@@ -14,6 +14,7 @@ include $(TOP)/configure/CONFIG
 DB += URLDriver.template
 ifeq ($(WITH_CURL), YES)
 	DB += CurlUsage.template
+	DB += CurlConfigFile.template
 endif
 
 #----------------------------------------------------

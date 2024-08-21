@@ -2,6 +2,9 @@
 
 #ifdef ADURL_USE_CURL
     #include <curl/curl.h>
+    #include <fstream>
+    #include <sys/stat.h>
+    #include <unistd.h>
 #endif
 
 #define DRIVER_VERSION      2
@@ -21,7 +24,10 @@ public:
 
     #ifdef ADURL_USE_CURL
     virtual asynStatus writeOctet(asynUser *pasynUser, const char *value, size_t nChars, size_t *nActual);
+    asynStatus completeFullPath();
+    asynStatus loadConfigFile();
     void initializeCurl();
+    static size_t curlWriteCallback(void* contents, size_t size, size_t nmemb, void* userp);
     #endif
 
 protected:
@@ -30,6 +36,8 @@ protected:
 
     #ifdef ADURL_USE_CURL
     int useCurl;
+    int curlLoadConfig;
+    int fileIsValid;
     int curlOptHttpAuth;
     int curlOptSSLVerifyHost;
     int curlOptSSLVerifyPeer;
@@ -38,6 +46,7 @@ protected:
     #define MAXCURLSTRCHARS 128
     CURL *curl = NULL;
     CURLcode res;
+    std::vector<char> curlBuffer;
 
     /*Array to translate CurlHttpAuth options*/
     long unsigned int CurlHttpOptions [11] = {CURLAUTH_BASIC, CURLAUTH_DIGEST, CURLAUTH_DIGEST_IE, CURLAUTH_BEARER,
@@ -53,12 +62,15 @@ private:
     Image image;
     epicsEventId startEventId;
     epicsEventId stopEventId;
+
 };
 
 #define URLNameString "URL_NAME"
 
 #ifdef ADURL_USE_CURL
     #define UseCurlString              "USE_CURL"
+    #define CurlLoadConfigString       "CURL_LOAD_CONFIG"
+    #define CurlFileIsValidString      "FILE_IS_VALID"
     #define CurlOptHttpAuthString      "ASYN_CURLOPT_HTTPAUTH"
     #define CurlOptSSLVerifyHostString "ASYN_CURLOPT_SSL_VERIFYHOST"
     #define CurlOptSSLVerifyPeerString "ASYN_CURLOPT_SSL_VERIFYPEER"
