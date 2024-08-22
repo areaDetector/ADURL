@@ -27,8 +27,12 @@ epicsEnvSet("EPICS_DB_INCLUDE_PATH", "$(ADCORE)/db")
 #                 int priority, int stackSize)
 URLDriverConfig("$(PORT)", 0, 0)
 dbLoadRecords("$(ADURL)/db/URLDriver.template","P=$(PREFIX),R=cam1:,PORT=$(PORT),ADDR=0,TIMEOUT=1")
-dbLoadRecords("$(ADURL)/db/CurlUsage.template","P=$(PREFIX),R=cam1:,PORT=$(PORT),ADDR=0,TIMEOUT=1")
 
+#### If using curl uncomment this
+## CurlUsage.template includes another template file under $(ADURL)/db/
+# epicsEnvSet("EPICS_DB_INCLUDE_PATH", "$(EPICS_DB_INCLUDE_PATH):$(ADURL)/db/")
+# Load curl configuration records
+# dbLoadRecords("$(ADURL)/db/CurlUsage.template","P=$(PREFIX),R=cam1:,PORT=$(PORT),ADDR=0,TIMEOUT=1")
 # Create a standard arrays plugin.
 NDStdArraysConfigure("Image1", 3, 0, "$(PORT)", 0)
 
