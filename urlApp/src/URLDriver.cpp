@@ -28,6 +28,9 @@ using namespace Magick;
 static const char *driverName = "URLDriver";
 
 #ifdef ADURL_USE_CURL
+/** Called by class constructor to initialize curl handle pointer
+ *  and set the writeCallback function and read buffer.
+*/
 void URLDriver::initializeCurl(){
     curl_global_init(CURL_GLOBAL_DEFAULT);
     this->curl = curl_easy_init();
@@ -348,6 +351,14 @@ asynStatus URLDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 }
 
 #ifdef ADURL_USE_CURL
+/** Only actually implemented if compiled with WITH_CURL = YES.
+ *  Called when asyn clients call pasynOctet->write().
+  * In this particular driver, this function sets the curl string configuration options.
+  * For all parameters it sets the value in the parameter library and calls any registered callbacks..
+  * \param[in] pasynUser pasynUser structure that encodes the reason and address.
+  * \param[in] value Address of the string to write.
+  * \param[in] nChars Number of characters to write.
+  * \param[out] nActual Number of characters actually written. */
 asynStatus URLDriver::writeOctet(asynUser *pasynUser, const char *value, size_t nChars, size_t *nActual)
 {
 
@@ -384,7 +395,8 @@ asynStatus URLDriver::writeOctet(asynUser *pasynUser, const char *value, size_t 
 }
 
 /* Called each time filePath or fileName is changed to check if file is accessible.
-   Should only be called inside writeOctet() so needn't call callbacks. */
+   Should only be called inside writeOctet() so needn't call callbacks, although it
+   set the fileIsValid parameter to either 0 or 1.*/
 asynStatus URLDriver::completeFullPath()
 {
 
@@ -413,6 +425,9 @@ asynStatus URLDriver::completeFullPath()
 
 }
 
+/* Parses options from a configuration file and sets all the parameters that it can
+   with the options. Only works for asyn-implemented curl options because it calls either
+   URLDriver::writeInt32 or URLDriver::writeOctet for each option.*/
 asynStatus URLDriver::loadConfigFile()
 {
 
@@ -500,6 +515,11 @@ asynStatus URLDriver::loadConfigFile()
 
 }
 
+/* Is called after curl_easy_perform to read from url and store output into *userp buffer
+   in this particular driver, userp is std::vector<char> * this->curlBuffer.
+   To avoid accumulating infinite information in memory, buffer should always be cleaned
+   before calling curl_easy_perform. If can't be cleaned inside this function though, because
+   it seems it is called several times for each curl_easy_perform call.*/
 size_t URLDriver::curlWriteCallback(void* contents, size_t size, size_t nmemb, void* userp)
 {
     int totalSize = size * nmemb;
@@ -593,7 +613,7 @@ URLDriver::URLDriver(const char *portName, int maxBuffers, size_t maxMemory,
     setStringParam(curlOptUserName,       "\0");
     setStringParam(curlOptPassword,       "\0");
 
-    /* FileTEmplate parameter won't use complicated templates here */
+    /* FileTemplate parameter won't use complicated templates here */
     setStringParam(NDFileTemplate, "%s%s");
     this->initializeCurl();
     #endif
