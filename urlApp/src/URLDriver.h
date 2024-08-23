@@ -8,8 +8,8 @@
 #endif
 
 #define DRIVER_VERSION      2
-#define DRIVER_REVISION     3
-#define DRIVER_MODIFICATION 1
+#define DRIVER_REVISION     4
+#define DRIVER_MODIFICATION 0
 
 /** URL driver; reads images from URLs, such as Web cameras and Axis video servers, but also files, etc. */
 class URLDriver : public ADDriver {
