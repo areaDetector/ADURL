@@ -23,6 +23,13 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
+R2-4 (22-Aug-2024)
+----
+* Added header file and transferred class declaration to there.
+* Added curl usage: driver can use either curl or GraphicksMagick to get image from URL.
+* Added WITH_CURL compilation option to compile with or without libcurl.
+* Add [documentation](docs/ADURL/ADURL.rst) about curl configuration records.
+
 R2-3 (26-May-2021)
 ----
 * Converted documentation to ReST, include in documentation on github.io.
