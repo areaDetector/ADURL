@@ -1,0 +1,139 @@
+# Records to toggle curl functionalities
+
+include "CurlConfigFile.template"
+
+record (bo, "$(P)$(R)UseCurl")
+{
+    field(DESC, "Toggle curl usage")
+    field(DTYP, "asynInt32")
+    field(PINI, "YES")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))USE_CURL")
+    info(autosaveFields, "VAL")
+}
+
+record (mbbo, "$(P)$(R)CurlOptHTTPAuth")
+{
+    field(DESC, "Set CURLOPT_HTTPAUTH")
+    field(DTYP, "asynInt32")
+    field(ZRST, "CURLAUTH_BASIC")
+    field(ZRVL, "0")
+    field(ONST, "CURLAUTH_DIGEST")
+    field(ONVL, "1")
+    field(TWST, "CURLAUTH_DIGEST_IE")
+    field(TWVL, "2")
+    field(THST, "CURLAUTH_BEARER")
+    field(THVL, "3")
+    field(FRST, "CURLAUTH_NEGOTIATE")
+    field(FRVL, "4")
+    field(FVST, "CURLAUTH_NTLM")
+    field(FVVL, "5")
+    field(SXST, "CURLAUTH_NTLM_WB")
+    field(SXVL, "6")
+    field(SVST, "CURLAUTH_ANY")
+    field(SVVL, "7")
+    field(EIST, "CURLAUTH_ANYSAFE")
+    field(EIVL, "8")
+    field(NIST, "CURLAUTH_ONLY")
+    field(NIVL, "9")
+    field(TEST, "CURLAUTH_AWS_SIGV4")
+    field(TEVL, "10")
+    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))ASYN_CURLOPT_HTTPAUTH")
+}
+
+record (mbbi, "$(P)$(R)CurlOptHTTPAuth_RBV")
+{
+    field(DESC, "Set CURLOPT_HTTPAUTH")
+    field(DTYP, "asynInt32")
+    field(ZRST, "CURLAUTH_BASIC")
+    field(ZRVL, "0")
+    field(ONST, "CURLAUTH_DIGEST")
+    field(ONVL, "1")
+    field(TWST, "CURLAUTH_DIGEST_IE")
+    field(TWVL, "2")
+    field(THST, "CURLAUTH_BEARER")
+    field(THVL, "3")
+    field(FRST, "CURLAUTH_NEGOTIATE")
+    field(FRVL, "4")
+    field(FVST, "CURLAUTH_NTLM")
+    field(FVVL, "5")
+    field(SXST, "CURLAUTH_NTLM_WB")
+    field(SXVL, "6")
+    field(SVST, "CURLAUTH_ANY")
+    field(SVVL, "7")
+    field(EIST, "CURLAUTH_ANYSAFE")
+    field(EIVL, "8")
+    field(NIST, "CURLAUTH_ONLY")
+    field(NIVL, "9")
+    field(TEST, "CURLAUTH_AWS_SIGV4")
+    field(TEVL, "10")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))ASYN_CURLOPT_HTTPAUTH")
+}
+
+record (mbbo, "$(P)$(R)CurlOptSSLVerifyHost")
+{
+    field(DESC, "Verify Host SSL certificate")
+    field(DTYP, "asynInt32")
+    field(ZRST, "NO")
+    field(ZRVL, "0")
+    field(ONST, "YES")
+    field(ONVL, "1")
+    field(TWST, "YES")
+    field(TWVL, "2")
+    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))ASYN_CURLOPT_SSL_VERIFYHOST")
+}
+
+record (mbbi, "$(P)$(R)CurlOptSSLVerifyHost_RBV")
+{
+    field(DESC, "Verify Host SSL certificate")
+    field(DTYP, "asynInt32")
+    field(ZRST, "NO")
+    field(ZRVL, "0")
+    field(ONST, "YES")
+    field(ONVL, "1")
+    field(TWST, "YES")
+    field(TWVL, "2")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))ASYN_CURLOPT_SSL_VERIFYHOST")
+}
+
+record (bo, "$(P)$(R)CurlOptSSLVerifyPeer")
+{
+    field(DESC, "Verify SSL peer")
+    field(DTYP, "asynInt32")
+    field(PINI, "YES")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))ASYN_CURLOPT_SSL_VERIFYPEER")
+}
+
+record (bi, "$(P)$(R)CurlOptSSLVerifyPeer_RBV")
+{
+    field(DESC, "Verify SSL peer")
+    field(DTYP, "asynInt32")
+    field(PINI, "YES")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))ASYN_CURLOPT_SSL_VERIFYPEER")
+}
+
+record(waveform, "$(P)$(R)CurlOptUserName")
+{
+    field(DESC, "Username for auth. Try not to use this.")
+    field(DTYP, "asynOctetWrite")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))ASYN_CURLOPT_USERNAME")
+    field(FTVL, "CHAR")
+    field(NELM, "128")
+}
+
+record(waveform, "$(P)$(R)CurlOptPassword")
+{
+    field(DESC, "Password for auth. Try not to use this.")
+    field(DTYP, "asynOctetWrite")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))ASYN_CURLOPT_PASSWORD")
+    field(FTVL, "CHAR")
+    field(NELM, "128")
+}

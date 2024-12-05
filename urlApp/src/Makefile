@@ -43,6 +43,11 @@ ifeq ($(WITH_GRAPHICSMAGICK), YES)
   include $(ADCORE)/ADApp/commonLibraryMakefile
 endif
 
+ifeq ($(WITH_CURL),YES)
+  USR_CXXFLAGS += -DADURL_USE_CURL
+  USR_SYS_LIBS += curl
+endif
+
 #=============================
 
 include $(TOP)/configure/RULES
