@@ -15,6 +15,7 @@
 # Set CHECK_RELEASE to WARN to perform consistency checking but
 #   continue building anyway if conflicts are found.
 CHECK_RELEASE = YES
+# WITH_CURL = YES
 
 # Set this when you only want to compile this application
 #   for a subset of the cross-compiled target architectures
