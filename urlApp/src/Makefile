@@ -27,6 +27,11 @@ ifeq ($(WITH_GRAPHICSMAGICK), YES)
     USR_CXXFLAGS_WIN32 += -DWIN32
   endif
  
+  ifeq (mingw, $(findstring mingw, $(T_A)))
+    # multiple definition of `_Unwind_Resume on Linux. I don't know how to fix it.
+    USR_LDFLAGS += -Wl,-allow-multiple-definition
+  endif
+ 
   ifeq ($(SHARED_LIBRARIES),YES)
     USR_CXXFLAGS_WIN32 += -D_DLL
   else
